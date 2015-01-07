@@ -1,0 +1,33 @@
+CC=clang
+
+ifdef DEBUG
+    MODE = debug
+    MODEFLAG = -g -D_DEBUG
+else
+    MODE = release
+    MODEFLAG = -O -DNDEBUG
+endif
+
+EXE_COMPILE_FLAGS = $(MODEFLAG) -DUNIX -c
+EXE_LINK_FLAGS    = $(MODEFLAG)
+
+ifdef SHARED
+    LIB_COMPILE_FLAGS = $(EXE_COMPILE_FLAGS) -fPIC -Wall
+    LIB_LINK_FLAGS    = $(EXE_LINK_FLAGS) -fPIC -shared
+    LIB_SUFFIX        = .so
+else
+    LIB_COMPILE_FLAGS = $(EXE_COMPILE_FLAGS)
+    LIB_LINK_FLAGS    = -cr
+    LIB_SUFFIX        = .a
+endif
+
+OSNAME = $(shell uname)
+
+TOPDIR = ../build
+BINDIR = $(TOPDIR)/bin
+ifdef SHARED
+LIBDIR = $(BINDIR)
+else
+LIBDIR = $(TOPDIR)/lib
+endif
+LIBNAME = apue

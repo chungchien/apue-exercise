@@ -1,32 +1,33 @@
-INCLUDE_DIRS += -I../include
+# lib/Makefile --- for make libapue.a
 
-CC ?= clang
-CFLAGS += -Wall $(INCLUDE_DIRS)
-RM ?= $(-rm -rf)
+include ../mak/make.settings
 
-ifeq ($(BUILD_TYPE), Release)
-CFLAGS += -O
-else
-CFLAGS += -g
-endif
+OBJDIR = $(TOPDIR)/obj/apueobjs
+INCLUDEDIR = -I../include
+
 
 OBJECTS := error.o s_pipe.o serv_listen.o serv_accept.o cli_conn.o \
            writen.o readn.o send_fd.o send_err.o recv_fd.o
 
-SOURCES := $(OBJECTS:%.o,%.c)
+VPATH = ../include:$(LIBDIR)
 
-VPATH = ../include
+LIBAPUE = $(LIBDIR)/libapue$(LIB_SUFFIX)
 
 .PHONY: all clean
-all: libapue.a
+all: dirs $(LIBAPUE)
 
-libapue.a: $(OBJECTS)
-	$(AR) -cr $@ $(OBJECTS)
+dirs:
+	if [ -d $(OBJDIR) ] ; then true; else mkdir -p $(OBJDIR) ; fi; \
+	if [ -d $(LIBDIR) ] ; then true; else mkdir -p $(LIBDIR) ; fi;
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $<
+$(LIBAPUE): $(OBJECTS)
+	$(AR) $(LIB_LINK_FLAGS) $@ $(OBJDIR)/*
 
-clean:
-	$(RM) *.o libapue.a
+$(OBJECTS): %.o:%.c
+	$(CC) $(LIB_COMPILE_FLAGS) $(INCLUDEDIR) $< -o $(OBJDIR)/$@
 
 $(OBJECTS): apue.h
+
+clean:
+	-rm -rf $(OBJDIR)/*
+	-rm $(LIBAPUE)
