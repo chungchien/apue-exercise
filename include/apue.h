@@ -12,6 +12,15 @@
 #define MAXLINE 1024
 
 /*
+ * buf[] contains white-space-separated arguments.  We convert it to an
+ * argv-style array of pointers, and call the user's function (optfunc)
+ * to process the array.  We return -1 if there's a problem parsing buf,
+ * else we return whatever optfunc() returns.  Note that user's buf[]
+ * array is modified (nulls placed after each token).
+ */
+int buf_args(char *buf, int (optfunc)(int, char **));
+
+/*
  * Pass a file descriptor to another process.
  * If fd<0, then -fd is send back instead as the error status.
  */

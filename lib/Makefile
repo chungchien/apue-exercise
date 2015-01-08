@@ -7,7 +7,7 @@ INCLUDEDIR = -I../include
 
 
 OBJECTS := error.o s_pipe.o serv_listen.o serv_accept.o cli_conn.o \
-           writen.o readn.o send_fd.o send_err.o recv_fd.o
+           writen.o readn.o send_fd.o send_err.o recv_fd.o buf_args.o
 
 VPATH = ../include:$(LIBDIR)
 
