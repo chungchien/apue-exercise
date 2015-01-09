@@ -6,9 +6,21 @@ OBJDIR = $(TOPDIR)/obj/apueobjs
 INCLUDEDIR = -I../include
 
 
-OBJECTS := error.o s_pipe.o serv_listen.o serv_accept.o cli_conn.o \
-           writen.o readn.o send_fd.o send_err.o recv_fd.o buf_args.o \
-           recv_ufd.o
+OBJECTS := \
+  error.o \
+  errorlog.o \
+  s_pipe.o \
+  serv_listen.o \
+  serv_accept.o \
+  cli_conn.o \
+  writen.o \
+  readn.o \
+  send_fd.o \
+  send_err.o \
+  recv_fd.o \
+  buf_args.o \
+  recv_ufd.o \
+  daemonize.o \
 
 VPATH = ../include:$(LIBDIR):$(OBJDIR)
 
