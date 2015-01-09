@@ -9,6 +9,8 @@ OBJS = \
 	request.o \
 	cli_args.o
 
+VPATH = ../include:$(OBJDIR):$(LIBDIR)
+
 .PHONY: dirs all clean
 
 all: dirs $(APP)

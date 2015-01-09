@@ -37,7 +37,8 @@ int send_err(int fd, int status, const char *errmsg);
  * We have a 2-byte protocol for receiving the fd from send_fd().
  */
 int recv_fd(int fd, ssize_t (*userfunc)(int, const void *, size_t));
-
+int recv_ufd(int fd, uid_t *uidptr,
+             ssize_t (*userfunc)(int, const void *, size_t));
 /*
  * Create a server endpoint of a connection.
  * Returns fd if all OK, <0 on error.

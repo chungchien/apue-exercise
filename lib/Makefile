@@ -7,9 +7,10 @@ INCLUDEDIR = -I../include
 
 
 OBJECTS := error.o s_pipe.o serv_listen.o serv_accept.o cli_conn.o \
-           writen.o readn.o send_fd.o send_err.o recv_fd.o buf_args.o
+           writen.o readn.o send_fd.o send_err.o recv_fd.o buf_args.o \
+           recv_ufd.o
 
-VPATH = ../include:$(LIBDIR)
+VPATH = ../include:$(LIBDIR):$(OBJDIR)
 
 LIBAPUE = $(LIBDIR)/libapue$(LIB_SUFFIX)
 

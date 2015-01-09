@@ -8,6 +8,8 @@ OBJS = main.o \
 
 APP = $(BINDIR)/open
 
+VPATH = ../include:$(LIBDIR):$(OBJDIR)
+
 .PHONY: all dirs clean
 
 all: dirs $(APP)

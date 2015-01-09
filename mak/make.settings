@@ -11,6 +11,15 @@ endif
 EXE_COMPILE_FLAGS = $(MODEFLAG) -DUNIX -c
 EXE_LINK_FLAGS    = $(MODEFLAG)
 
+OSNAME = $(shell uname)
+
+ifeq ($(OSNAME), Linux)
+EXE_COMPILE_FLAGS += -DLINUX -D_GNU_SOURCE
+endif
+ifeq ($(OSNAME), FreeBSD)
+EXE_COMPILE_FLAGS += -DFreeBSD -DBSD
+endif
+
 ifdef SHARED
     LIB_COMPILE_FLAGS = $(EXE_COMPILE_FLAGS) -fPIC -Wall
     LIB_LINK_FLAGS    = $(EXE_LINK_FLAGS) -fPIC -shared
@@ -20,8 +29,6 @@ else
     LIB_LINK_FLAGS    = -cr
     LIB_SUFFIX        = .a
 endif
-
-OSNAME = $(shell uname)
 
 TOPDIR = ../build
 BINDIR = $(TOPDIR)/bin
