@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <memory.h>
+#include <signal.h>
 
 #define MAXLINE 1024
 
