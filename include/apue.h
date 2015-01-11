@@ -8,8 +8,11 @@
 #include <stddef.h>
 #include <string.h>
 #include <memory.h>
+#include <signal.h>
 
 #define MAXLINE 1024
+
+void daemonize(const char *cmd);
 
 /*
  * buf[] contains white-space-separated arguments.  We convert it to an
@@ -51,6 +54,11 @@ int serv_listen(const char *name);
  * Returns new fd if all OK, <0 on error
  */
 int serv_accept(int listenfd, uid_t *uidptr);
+/*
+ * Create a client endpoint and connect to a server.
+ * Returns fd if all OK, <0 on error.
+ */
+int cli_conn(const char *name);
 
 /*
  * Returns a full-duplex "stream" pipe (a UNIX domain socket)
@@ -99,4 +107,29 @@ void err_msg(const char *fmt, ...);
  */
 void err_quit(const char *fmt, ...);
 
+
+/*
+ * Initialize syslog(), if running as daemon.
+ */
+void log_open(const char *ident, int option, int facility);
+/*
+ * Nonfatal error related to a system call.
+ * Print a message with the system's errno value and return.
+ */
+void log_ret(const char *fmt, ...);
+/*
+ * Fatal error related to a system call.
+ * Print a message and terminate.
+ */
+void log_sys(const char *fmt, ...);
+/*
+ * Nonfatal error unrelated to a system call.
+ * Print a message and return.
+ */
+void log_msg(const char *fmt, ...);
+/*
+ * Fatal error unrelated to a system call.
+ * Print a message and terminate.
+ */
+void log_quit(const char *fmt, ...);
 #endif // APUE_H_

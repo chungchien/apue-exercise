@@ -1,20 +1,31 @@
 #include "opend.h"
+#include <syslog.h>
 
+int debug, oflag, client_size, log_to_stderr;
 char errmsg[MAXLINE];
-int oflag;
 char *pathname;
+Client *client = NULL;
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    int nread;
-    char buf[MAXLINE];
+    int c;
 
-    for (;;) { /* read arg buffer from client, process request */
-        if ((nread = read(STDIN_FILENO, buf, MAXLINE)) < 0)
-            err_sys("read error on stream pipe");
-        else if (nread == 0)
-            break;              /* client has closed the stream pipe */
-        request(buf, nread, STDOUT_FILENO);
+    log_open("open.serv", LOG_PID, LOG_USER);
+
+    opterr = 0;                 /* don't want getopt() writing to stderr */
+    while ((c = getopt(argc, argv, "d")) != EOF) {
+        switch (c) {
+        case 'd':               /* debug */
+            debug = log_to_stderr = 1;
+            break;
+
+        case '?':
+            err_quit("unrecognized option: -%c", optopt);
+        }
     }
-    exit(0);
+
+    if (debug == 0)
+        daemonize("opend");
+
+    loop();                     /* never returns */
 }

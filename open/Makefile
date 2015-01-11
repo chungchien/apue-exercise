@@ -24,6 +24,8 @@ $(APP): $(OBJS)
 $(OBJS): %.o:%.c
 	$(CC) $(EXE_COMPILE_FLAGS) $(INCLUDEDIR) $< -o $(OBJDIR)/$@
 
+$(OBJS): apue.h
+
 clean:
 	-rm -rf $(OBJDIR)/*
 	-rm $(APP)

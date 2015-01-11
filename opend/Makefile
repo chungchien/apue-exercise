@@ -7,7 +7,9 @@ APP = $(BINDIR)/opend
 OBJS = \
 	main.o \
 	request.o \
-	cli_args.o
+	cli_args.o \
+	clientopts.o \
+	loop.o
 
 VPATH = ../include:$(OBJDIR):$(LIBDIR)
 
